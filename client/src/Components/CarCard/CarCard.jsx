@@ -1,5 +1,6 @@
-import React from "react";
-import "./CarCard.css";
+
+import React from 'react';
+import './CarCard.css'
 
 const CarCard = ({ car, ourDistance }) => {
   if (!car || Object.keys(car).length === 0) {
