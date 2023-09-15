@@ -3,10 +3,14 @@ import React, { useState } from "react";
 import { Autocomplete, useLoadScript, GoogleMap } from "@react-google-maps/api";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import haversine from "haversine";
-
+import CarCard from "../CarCard/CarCard";
+import Gmap from "../Gmap/Gmap";
 const libraries = ["places"];
 
 const UserPage = () => {
+  // let carCards = [];
+  const [carData, setCarData] = useState([]);
+  const [showPickup, setshowPickup] = useState(true);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk",
     libraries: libraries,
@@ -160,7 +164,7 @@ const UserPage = () => {
                   unit: "meter",
                 }
               );
-              const limitD = distanceToDestination * (1-formData.weight);
+              const limitD = distanceToDestination * (1 - formData.weight);
               const ourDistance = limitS + limitD;
               // const ddistanceAfterWeight =
               //   distanceToSource * (1 - formData.weight);
@@ -176,15 +180,16 @@ const UserPage = () => {
           // Now carsWithDistance is an array of car objects sorted by ourDistance
           console.log(carsWithDistance);
           // Display the sorted cars
-          carsWithDistance.map((carObj) => {
-            const car = carObj.carData;
-            const ourDistance = carObj.ourDistance;
 
-            // Display car information and ourDistance
-            console.log("Car:", car);
-            console.log("Our Distance:", ourDistance);
-          });
-
+          setCarData(carsWithDistance);
+          // carCards = carsWithDistance.map((carObj, index) => {
+          //   const car = carObj.carData; // Single car object
+          //   const ourDistance = carObj.ourDistance;
+          //   return (
+          //     <CarCard key={index} cars={[car]} ourDistance={ourDistance} />
+          //   );
+          // });
+          setshowPickup(false);
           console.log("Cars within 500m:", carsWithDistance);
         } else {
           console.log("Request failed.");
@@ -195,81 +200,107 @@ const UserPage = () => {
     }
   };
   //yaha khatam soneji wala
-
+  const handleSetShow = (e) => {
+    setshowPickup(true);
+  };
   // apna wala
 
   return (
     <div>
-      <h1>Enter Pickup Details!</h1>
-      <div className="container">
-        <form>
-          <label>
-            Enter Your Name:
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleNameChange}
-            />
-          </label>
-          <label>
-            Enter the Time:
-            <input
-              type="time"
-              name="time"
-              value={formData.time}
-              onChange={handleTimeChange}
-            />
-          </label>
-          <label>
-            Enter the Date:
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleDateChange}
-            />
-          </label>
-          <label>
-            Enter the approx wait (0 for minimum wait , 1 for max ):
-            <input
-              type="number"
-              name="weight "
-              value={formData.weight}
-              onChange={handleWeightChange}
-            />
-          </label>
-          <label>Enter Source:</label>
-          {isLoaded && (
-            <Autocomplete>
-              <input
-                type="text"
-                placeholder="Thane"
-                value={formData.source}
-                onChange={handleSourceChange}
-                required
-              />
-            </Autocomplete>
-          )}
-
-          <label>Enter Destination:</label>
-          {isLoaded && (
-            <Autocomplete>
-              <input
-                type="text"
-                placeholder="Bandra"
-                value={formData.destination}
-                onChange={handleDestinationChange}
-                required
-              />
-            </Autocomplete>
-          )}
-
-          <button type="submit" onClick={handleSubmit}>
-            Submit
-          </button>
-        </form>
+      <div>
+        <button onClick={handleSetShow}>Show pick up details</button>
       </div>
+      <div>
+        {showPickup && (
+          <>
+            <h1>Enter Pickup Details!</h1>
+            <div className="container">
+              <form>
+                <label>
+                  Enter Your Name:
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleNameChange}
+                  />
+                </label>
+                <label>
+                  Enter the Time:
+                  <input
+                    type="time"
+                    name="time"
+                    value={formData.time}
+                    onChange={handleTimeChange}
+                  />
+                </label>
+                <label>
+                  Enter the Date:
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleDateChange}
+                  />
+                </label>
+                <label>
+                  Enter the approx wait (0 for minimum wait , 1 for max ):
+                  <input
+                    type="number"
+                    name="weight "
+                    value={formData.weight}
+                    onChange={handleWeightChange}
+                  />
+                </label>
+                <label>Enter Source:</label>
+                {isLoaded && (
+                  <Autocomplete>
+                    <input
+                      type="text"
+                      placeholder="Thane"
+                      value={formData.source}
+                      onChange={handleSourceChange}
+                      required
+                    />
+                  </Autocomplete>
+                )}
+
+                <label>Enter Destination:</label>
+                {isLoaded && (
+                  <Autocomplete>
+                    <input
+                      type="text"
+                      placeholder="Bandra"
+                      value={formData.destination}
+                      onChange={handleDestinationChange}
+                      required
+                    />
+                  </Autocomplete>
+                )}
+
+                <button type="submit" onClick={handleSubmit}>
+                  Submit
+                </button>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
+      <div>
+        {!showPickup && carData.length > 0 ? (
+          carData.map((carItem, index) => (
+            <CarCard
+              key={index}
+              car={carItem.carData} // Use carItem.carData instead of carItem.car
+              ourDistance={carItem.ourDistance}
+            />
+          ))
+        ) : (
+          <p>No available cars found.</p>
+        )}
+      </div>
+
+      <div>{/* map */}</div>
     </div>
   );
 };
