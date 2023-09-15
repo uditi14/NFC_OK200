@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 // const taskRoute = require("./routes/Edittask");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
-const PORT = 3000;
+const PORT = 3001;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -18,7 +18,7 @@ app.use(express.json());
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    "mongodb+srv://vivek:SODWx5KTCqA36XX3@cluster0.uicqxfz.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://simrantotlani08:RO1yCbAijDMhGNkx@cluster0.umnfidg.mongodb.net/?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
