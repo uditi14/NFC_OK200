@@ -1,3 +1,20 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const bcrypt = require("bcryptjs");
+const ObjectId = mongoose.Types.ObjectId;
+// const bodyParser = require("body-parser");
+// const taskSchema = require("./models/task");
+const user = require("./models/user");
+const jwt = require("jsonwebtoken");
+const path = require("path");
+const taskRoute = require("./routes/Edittask");
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
 // reg
 app.post("/register", async (req, res) => {
   try {
