@@ -61,7 +61,7 @@ const UserPage = () => {
       source: event.target.value,
     });
   };
-//kartik soneji wala 
+  //kartik soneji wala
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -96,66 +96,71 @@ const UserPage = () => {
           };
           // Filtered cars within 500m and calculate ourDistance for each car
           const carsWithDistance = data
-            .filter((car) => {
-              if (car.sourceCoord && car.destCoord) {
-                const carLocation = {
-                  latitude: car.sourceCoord.latitude,
-                  longitude: car.sourceCoord.longitude,
-                };
+            // .filter((car) => {
+            //   console.log(car.destCoord.latitude + "  carsss");
+            //   if (car.sourceCoord && car.destCoord) {
+            //     const carSLocation = {
+            //       latitude: car.sourceCoord.latitude,
+            //       longitude: car.sourceCoord.longitude,
+            //     };
+            //     const carDLocation = {
+            //       latitude: car.destCoord.latitude,
+            //       longitude:car.destCoord.longitude,
+            //     }
 
-                console.log(carLocation.latitude + " ");
+            //     const distanceToSource = haversine(userSource, carSLocation, {
+            //       unit: "meter",
+            //     });
+            //     console.log(distanceToSource + " dd");
+            //     const limitS = distanceToSource * formData.weight;
+            //     console.log(limitS + " limit s");
+            //     // const sdistanceAfterWeight = distanceToSource * formData.weight;
 
-                const distanceToSource = haversine(userSource, carLocation, {
-                  unit: "meter",
-                });
-               console.log(distanceToSource + " dd");
-                const limitS = distanceToSource * formData.weight;
-                console.log(limitS + " limit s");
-                // const sdistanceAfterWeight = distanceToSource * formData.weight;
+            //     const distanceToDestination = haversine(
+            //       userDestination,
+            //       carDLocation,
+            //       {
+            //         unit: "meter",
+            //       }
+            //     );
+            //     // const limitD = distanceToDestination * (1 - formData.weight);
 
-  
+            //     // const ourDistance = limitS + limitD;
+            //     // const ddistanceAfterWeight =
+            //     //   distanceToSource * (1 - formData.weight);
 
-                const distanceToDestination = haversine(
-                  userDestination,
-                  carLocation,
-                  {
-                    unit: "meter",
-                  }
-                );
-                const limitD = distanceToDestination * (1 - formData.weight);
-
-
-                const ourDistance = limitS + limitD;
-                // const ddistanceAfterWeight =
-                //   distanceToSource * (1 - formData.weight);
-
-                return distanceToSource;
-              } else {
-                return false;
-              }
-            })
+            //     return distanceToSource;
+            //   } else {
+            //     return false;
+            //   }
+            // })
             .map((car) => {
               // Define ourDistance within this scope
-              const carLocation = {
+              const carSLocation = {
                 latitude: car.sourceCoord.latitude,
                 longitude: car.sourceCoord.longitude,
               };
 
-              console.log(carLocation.latitude + " ");
+              const carDLocation = {
+                latitude: car.destCoord.latitude,
+                longitude: car.destCoord.longitude,
+              };
 
-              const distanceToSource = haversine(userSource, carLocation, {
+              // console.log(carLocation.latitude + " ");
+
+              const distanceToSource = haversine(userSource, carSLocation, {
                 unit: "meter",
               });
               const limitS = distanceToSource * formData.weight;
-             
+
               const distanceToDestination = haversine(
                 userDestination,
-                carLocation,
+                carDLocation,
                 {
                   unit: "meter",
                 }
               );
-              const limitD = distanceToDestination * formData.weight;
+              const limitD = distanceToDestination * (1-formData.weight);
               const ourDistance = limitS + limitD;
               // const ddistanceAfterWeight =
               //   distanceToSource * (1 - formData.weight);
@@ -190,7 +195,6 @@ const UserPage = () => {
     }
   };
   //yaha khatam soneji wala
-  
 
   // apna wala
 
