@@ -12,8 +12,8 @@ const carListSchema = new mongoose.Schema({
   carSeats: Number,
   source: String,
   destination: String,
-  sourceCoord: coordinateSchema, // Define as subdocument
-  destCoord: coordinateSchema, // Define as subdocument
+  sourceCoord: coordinateSchema, 
+  destCoord: coordinateSchema, 
   price: Number,
   date: Date,
   time: String,
