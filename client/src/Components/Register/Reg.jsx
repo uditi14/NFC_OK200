@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./Reg.css";
 function Reg() {
+  
   const history = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");

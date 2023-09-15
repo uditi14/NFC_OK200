@@ -8,6 +8,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const user = require("./models/user");
 const jwt = require("jsonwebtoken");
 const path = require("path");
+const carData=require("./routes/carList");
 // const taskRoute = require("./routes/Edittask");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 const PORT = 3001;
@@ -33,7 +34,7 @@ mongoose
   .catch((err) => {
     console.error("Failed to connect db", err);
   });
-
+app.use("/api/car",carData);
 // reg
 app.post("/register", async (req, res) => {
   try {
