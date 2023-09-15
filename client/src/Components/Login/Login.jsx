@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import "./Log.css";
+import "./Login.css";
 
 function Login() {
   const history = useNavigate();
@@ -27,7 +27,8 @@ function Login() {
 
       if (data.existinguser) {
         localStorage.setItem("token", data.existinguser);
-        history("/todo");
+        // history("/todo");
+        console.log(data.existinguser);
       } else {
         alert("Please correct your email or password.");
       }

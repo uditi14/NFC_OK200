@@ -8,12 +8,31 @@ const ObjectId = mongoose.Types.ObjectId;
 const user = require("./models/user");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const taskRoute = require("./routes/Edittask");
+// const taskRoute = require("./routes/Edittask");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
-
+const PORT = 3000;
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(
+    "mongodb+srv://vivek:SODWx5KTCqA36XX3@cluster0.uicqxfz.mongodb.net/?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("Db connected");
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect db", err);
+  });
 
 // reg
 app.post("/register", async (req, res) => {
