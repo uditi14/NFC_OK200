@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const carList = require('../models/carList');
+const axios =require("axios")
 
 router.post("/list", async (req, res) => {
-    try {
+    try { 
       const newCar = new carList({
         phoneNumber: req.body.phoneNumber,
         numberPlate: req.body.numberPlate,
@@ -11,10 +12,19 @@ router.post("/list", async (req, res) => {
         carSeats: req.body.carSeats,
         source: req.body.source,
         destination: req.body.destination,
+        sourceCoord: {
+          latitude: req.body.sourceCoord.lat,
+          longitude: req.body.sourceCoord.lng,
+        },
+        destCoord: {
+          latitude: req.body.destCoord.lat,
+          longitude: req.body.destCoord.lng,
+        },
         price: req.body.price,
         date: req.body.date,
         time: req.body.time,
       });
+      
       await newCar.save();
     //   res.send("Car data saved successfully");
     res.status(200).json(newCar);
@@ -24,14 +34,15 @@ router.post("/list", async (req, res) => {
     }
   });
 
-  router.get("/",async(req,res)=>{
-  try {
-    const {source,destination}=req.body;
-    const carLists=carList.find({source:source,destination:destination});
-    res.json("success " + carLists);
-  } catch (error) {
-    res.json(error)
-  }
-  })
-
+  router.get("/cars", async (req, res) => {
+    try {
+      const date = req.query.date;
+      const time = req.query.time;
+      const carLists = await carList.find({ date: date, time: time });
+      res.status(200).json(carLists);
+    } catch (e) {
+      console.log(e + " error");
+      res.status(500).send("Error fetching car data");
+    }
+  });
   module.exports=router;

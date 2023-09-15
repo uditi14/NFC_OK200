@@ -1,6 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Autocomplete,useLoadScript,GoogleMap } from '@react-google-maps/api';
+import {
+    geocodeByAddress,
+    getLatLng,
+  } from 'react-places-autocomplete';
+
+
+const libraries=['places'];
+
 const ListCar = () => {
+
+    const {isLoaded} = useLoadScript({
+        googleMapsApiKey:'AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk',
+        libraries: libraries,
+    });
+
   const [formData, setFormData] = useState({
     phoneNumber: "",
     numberPlate: "",
@@ -79,38 +94,54 @@ const ListCar = () => {
   };
 
 
+
   const handleBack=async ()=>{
     try {
-        const response=await axios({
-            method:"post",
-            url:"http://localhost:3001/api/car/list",
-            data:{
-                phoneNumber:formData.phoneNumber,
-                numberPlate:formData.numberPlate,
-                carModel:formData.carModel,
-                carSeats:formData.carSeats,
-                source:formData.source,
-                destination:formData.destination,
-                price:formData.price,
-                date:formData.date,
-                time:formData.time,
-            }
-        });
-
+        if (formData.phoneNumber!=="") {
+          const sourceAdd = await geocodeByAddress(formData.source);
+          const destAdd= await geocodeByAddress(formData.destination);
+          if (sourceAdd && sourceAdd.length > 0 && destAdd && destAdd.length > 0) {
+            const sourceCoord = await getLatLng(sourceAdd[0]); // geocodeByAddress returns an array
+            console.log("Source Coordinates:", sourceCoord);
+          // if (destAdd && destAdd.length > 0) {
+            const destCoord = await getLatLng(destAdd[0]); // geocodeByAddress returns an array
+            console.log("Destination Coordinates:", destCoord);
+        
+            const response = await axios({
+              method: "post",
+              url: "http://localhost:3001/api/car/list",
+              data: {
+                phoneNumber: formData.phoneNumber,
+                numberPlate: formData.numberPlate,
+                carModel: formData.carModel,
+                carSeats: formData.carSeats,
+                source: formData.source,
+                destination: formData.destination,
+                sourceCoord: sourceCoord, // Use formData.sourceCoord
+                destCoord: destCoord,     // Use formData.destCoord
+                price: formData.price,
+                date: formData.date,
+                time: formData.time,
+              },
+            });
+            
+      
         console.log(response.data);
         if (response.status===200) {
             const data=response.data;
             console.log("OK200 "+ data);
+
         }
         else{
             console.log("ha ha ha ");
-        }
-        
+        }}
+    } else {
+         alert("Fill all fields");  
+    }
     } catch (error) {
         console.log(error + " error sending data");
     }
   }
-
 
   return (
     <div>
@@ -120,6 +151,7 @@ const ListCar = () => {
         placeholder="+91 8976554321"
         value={formData.phoneNumber}
         onChange={handlePhoneNumberChange}
+        required
       />
 
       <label>Enter Car number:</label>
@@ -128,6 +160,7 @@ const ListCar = () => {
         placeholder="MH05-8976"
         value={formData.numberPlate}
         onChange={handleNumberPlateChange}
+        required
       />
 
       <label>Enter Car model:</label>
@@ -136,6 +169,7 @@ const ListCar = () => {
         placeholder="i20 Sportz"
         value={formData.carModel}
         onChange={handleCarModelChange}
+        required
       />
 
       <label>Enter number of available seats:</label>
@@ -144,23 +178,28 @@ const ListCar = () => {
         placeholder="3"
         value={formData.carSeats}
         onChange={handleCarSeatsChange}
+        required
       />
 
       <label>Enter Source:</label>
+     { isLoaded && <Autocomplete>
       <input
         type="text"
         placeholder="Thane"
         value={formData.source}
         onChange={handleSourceChange}
-      />
+        required
+      /></Autocomplete>}
 
       <label>Enter Destination:</label>
+      { isLoaded && <Autocomplete>
       <input
         type="text"
         placeholder="Bandra"
         value={formData.destination}
         onChange={handleDestinationChange}
-      />
+        required
+      /></Autocomplete>}
 
       <label>Enter Price per seat:</label>
       <input
@@ -168,6 +207,7 @@ const ListCar = () => {
         placeholder="120"
         value={formData.price}
         onChange={handlePriceChange}
+        required
       />
 
       <label>Enter date of travel:</label>
@@ -176,6 +216,7 @@ const ListCar = () => {
         placeholder="15-09-23"
         value={formData.date}
         onChange={handleDateChange}
+        required
       />
 
       <label>Enter time of travel:</label>
@@ -184,6 +225,7 @@ const ListCar = () => {
         placeholder="09:00AM"
         value={formData.time}
         onChange={handleTimeChange}
+        required
       />
 
       <button onClick={handleBack}>Submit</button>
