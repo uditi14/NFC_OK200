@@ -18,7 +18,7 @@ app.use(express.json());
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    "mongodb+srv://vivek:SODWx5KTCqA36XX3@cluster0.uicqxfz.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://simrantotlani08:RO1yCbAijDMhGNkx@cluster0.umnfidg.mongodb.net/?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
