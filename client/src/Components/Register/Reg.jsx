@@ -17,7 +17,7 @@ function Reg() {
 
       const response = await axios({
         method: "post",
-        url: "https://todo-list-pl2e.vercel.app/register",
+        url: "http://localhost:3001/register",
         data: {
           name: username,
           email,

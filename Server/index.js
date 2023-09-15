@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 // const taskRoute = require("./routes/Edittask");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
-const PORT = 3000;
+const PORT = 3001;
 const app = express();
 app.use(cors());
 app.use(express.json());
