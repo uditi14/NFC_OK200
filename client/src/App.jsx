@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Reg from "./Components/Register/Reg";
 import ListCar from "./Components/ListCar/ListCar";
+import Gmap from './Components/Gmap/Gmap'
 function App() {
   return (
     <>
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Reg />} />{" "}
           <Route path="/list" element={<ListCar/>} />
+          <Route path='/map' element={<Gmap/>} />
         </Routes>
       </Router>
     </>
