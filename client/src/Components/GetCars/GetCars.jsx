@@ -4,11 +4,15 @@ import { Autocomplete, useLoadScript, GoogleMap } from "@react-google-maps/api";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import haversine from "haversine";
 import CarCard from "../CarCard/CarCard";
-import Gmap from "../Gmap/Gmap";
-const libraries = ["places"];
+import Gmap2 from "../Gmap/Gmap2"; 
 
+const libraries = ["places"];
 const UserPage = () => {
   // let carCards = [];
+  const [src, setsrc] = useState();
+  const [dest, setdest] = useState();
+  const [carSArray, setCarSArray] = useState([]);
+  const [carDArray, setCarDArray] = useState([]);
   const [carData, setCarData] = useState([]);
   const [showPickup, setshowPickup] = useState(true);
   const { isLoaded } = useLoadScript({
@@ -75,9 +79,10 @@ const UserPage = () => {
       if (sourceAdd && sourceAdd.length > 0 && destAdd && destAdd.length > 0) {
         const sourceCoord = await getLatLng(sourceAdd[0]);
         console.log("Source Coordinates:", sourceCoord);
-
+        setsrc(sourceCoord)
         const destCoord = await getLatLng(destAdd[0]);
         console.log("Destination Coordinates:", destCoord);
+        setdest(destCoord)
         const response = await axios.get("http://localhost:3001/api/car/cars", {
           params: {
             date: formData.date,
@@ -144,11 +149,18 @@ const UserPage = () => {
                 latitude: car.sourceCoord.latitude,
                 longitude: car.sourceCoord.longitude,
               };
+setCarSArray((prevArray) => [...prevArray, carSLocation]);
+              // setCarS(carSLocation);
 
               const carDLocation = {
                 latitude: car.destCoord.latitude,
                 longitude: car.destCoord.longitude,
               };
+               setCarDArray((prevArray) => [...prevArray, carDLocation]);
+
+
+              carSArray.push(carSLocation);
+              carDArray.push(carDLocation);
 
               // console.log(carLocation.latitude + " ");
 
@@ -201,8 +213,11 @@ const UserPage = () => {
   };
   //yaha khatam soneji wala
   const handleSetShow = (e) => {
+    e.preventDefault();
     setshowPickup(true);
+    console.log(carSArray); // Move the console.log inside this function
   };
+
   // apna wala
 
   return (
@@ -299,8 +314,7 @@ const UserPage = () => {
           <p>No available cars found.</p>
         )}
       </div>
-
-      <div>{/* map */}</div>
+      <div><Gmap2 carS={carSArray} carD={carDArray} src={src} dest={dest} /></div>
     </div>
   );
 };

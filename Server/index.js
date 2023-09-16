@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const ObjectId = mongoose.Types.ObjectId;
+// const { MongoClient, ObjectId } = require("mongodb");
 // const bodyParser = require("body-parser");
 // const taskSchema = require("./models/task");
 const user = require("./models/user");
@@ -98,3 +99,47 @@ app.get("/logout", async (req, res) => {
     res.json({ message: "logout succesful" });
   } catch (error) {}
 });
+
+// app.get("/getObjects", async (req, res) => {
+//   try {
+//     const db = mongoose.connection[0]; // Get the existing MongoDB connection
+//     const collection = db.collection(carlistdatas);
+    
+//     // Query the collection to retrieve objects (documents)
+//     const objects = await collection.find({}).toArray();
+//     res.json(objects);
+//   } catch (error) {
+//     console.error("Error retrieving objects:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// });
+
+
+// Define a route to retrieve all documents from MongoDB collection
+// app.get('/getAllDocuments', async (req, res) => {
+//   try {
+//     const db = client.db(test);
+//     const collection = db.collection(carlistdatas);
+
+//     // Query the collection to retrieve all documents
+//     const documents = await collection.find().toArray();
+
+//     res.json(documents);
+//   } catch (error) {
+//     console.error('Error retrieving documents:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+// Define a route to retrieve all documents from MongoDB collection
+app.get('/getAllDocuments', async (req, res) => {
+  try {
+    db.posts.find.pretty()
+
+    res.json(documents);
+  } catch (error) {
+    console.error('Error retrieving documents:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+

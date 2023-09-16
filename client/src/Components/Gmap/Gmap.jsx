@@ -1,90 +1,80 @@
-import React, { useEffect, useState } from "react";
-import {
-  GoogleMap,
-  TrafficLayer,
-  useLoadScript,
-  DirectionsService,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
+// import React, { useEffect, useState } from "react";
+// import {
+//   GoogleMap,
+//   TrafficLayer,
+//   useLoadScript,
+//   DirectionsService,
+//   DirectionsRenderer,
+// } from "@react-google-maps/api";
+// import "./Gmap.css";
 
-const libraries = ["places"];
-export default function Gmap() {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk",
-    libraries: libraries,
-  });
+// const libraries = ["places"];
 
-  const [userLocation, setUserLocation] = useState({
-    lat: 19.0759837,
-    lng: 72.8776559,
-  });
-  const [directions, setDirections] = useState(null);
+// export default function Gmap({ source, destination }) {
+//   const { isLoaded, loadError } = useLoadScript({
+//     googleMapsApiKey: "AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk", // Replace with your API key
+//     libraries: libraries,
+//   });
 
-  const source = {
-    lat: car.sourceCoord.latitude,
-    lng: car.sourceCoord.longitude,
-  };
-  const destination = {
-    lat: car.destCoord.latitude,
-    lng: car.destCoord.longitude,
-  };
+//   const [directions, setDirections] = useState();
 
-  useEffect(() => {
-    if (isLoaded) {
-      const directionsService = new window.google.maps.DirectionsService();
+//   const directionsCallback = (response, status) => {
+//     if (status === "OK") {
+//       setDirections(response);
+//     } else {
+//       console.error("Directions request failed with status:", status);
+//     }
+//   };
 
-      directionsService.route(
-        {
-          origin: source,
-          destination: destination,
-          travelMode: window.google.maps.TravelMode.DRIVING,
-          provideRouteAlternatives: true, // Request alternative routes
-          avoidTolls: false,
-          avoidHighways: false,
-          optimizeWaypoints: true,
-          drivingOptions: {
-            departureTime: new Date(), // Use current time for real-time traffic
-            trafficModel: "bestguess", // Use "bestguess" to consider traffic congestion
-          },
-        },
-        (result, status) => {
-          if (status === window.google.maps.DirectionsStatus.OK) {
-            setDirections(result);
-          } else {
-            console.error(`Directions request failed due to ${status}`);
-          }
-        }
-      );
-    }
-  }, [isLoaded, source, destination]);
+//   useEffect(() => {
+//     if (isLoaded) {
+//       const directionsService = new window.google.maps.DirectionsService();
 
-  return (
-    <div>
-      {isLoaded ? (
-        <div>
-          <GoogleMap
-            zoom={15}
-            center={userLocation}
-            mapContainerClassName="map-container"
-          >
-            <TrafficLayer></TrafficLayer>
-            {directions && (
-              <DirectionsRenderer
-                directions={directions}
-                options={{
-                  polylineOptions: {
-                    strokeColor: "blue",
-                  },
-                }}
-              />
-            )}
-            <Marker position={source} label="Source" />
-            <Marker position={destination} label="Destination" />
-          </GoogleMap>
-        </div>
-      ) : (
-        <div>Loading</div>
-      )}
-    </div>
-  );
-}
+//       directionsService.route(
+//         {
+//           origin: source, // Replace with the source location (e.g., { lat: 19.0759837, lng: 72.8776559 })
+//           destination: destination, // Replace with the destination location
+//           travelMode: "DRIVING", // You can change this to other travel modes if needed
+//           provideRouteAlternatives: true,
+//         },
+//         directionsCallback
+//       );
+//     }
+//   }, [isLoaded, source, destination]);
+
+//   return (
+//     <div>
+//       {loadError ? (
+//         <div>Error loading Google Maps</div>
+//       ) : isLoaded ? (
+//         <div>
+//           <GoogleMap
+//             zoom={15}
+//             center={source}
+//             mapContainerClassName="map-container"
+//           >
+//             <TrafficLayer autoUpdate />
+//             {directions && directions.routes && (
+//               <div>
+//                 {directions.routes.map((route, index) => (
+//                   <DirectionsRenderer
+//                     key={index}
+//                     directions={directions}
+//                     routeIndex={index}
+//                     options={{
+//                       polylineOptions: {
+//                         strokeColor: index === 0 ? "blue" : "grey", // Blue for the first (main) route, grey for alternatives
+//                       },
+//                     }}
+//                   />
+//                 ))}
+//               </div>
+//             )}
+//           </GoogleMap>
+//         </div>
+//       ) : (
+//         <div>Loading</div>
+//       )}
+//     </div>
+//   );
+// }
