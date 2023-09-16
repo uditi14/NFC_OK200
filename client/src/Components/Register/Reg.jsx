@@ -78,7 +78,7 @@ function Reg() {
       </div>
       <button onClick={handleRegister}>Register</button>
       <p>
-        Already have an account? <Link to="/">Login here</Link>
+        Already have an account? <Link className="link" to="/login">Login here</Link>
       </p>
     </div>
   );
