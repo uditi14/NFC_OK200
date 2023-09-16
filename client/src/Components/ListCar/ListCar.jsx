@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Autocomplete,useLoadScript,GoogleMap } from '@react-google-maps/api';
+import { Autocomplete,useLoadScript,} from '@react-google-maps/api';
 import {
     geocodeByAddress,
     getLatLng,
   } from 'react-places-autocomplete';
+import Gmap from '../Gmap/Gmap';
 
 
 const libraries=['places'];
@@ -27,6 +28,9 @@ const ListCar = () => {
     date: "",
     time: "",
   });
+
+  const[mapSource,setMapSource]=useState(null)
+  const[mapDest,setMapDest]=useState(null)
 
   // Define an onChange handler for each input field
   const handlePhoneNumberChange = (event) => {
@@ -93,8 +97,6 @@ const ListCar = () => {
     // console.log(formData);
   };
 
-
-
   const handleBack=async ()=>{
     try {
         if (formData.phoneNumber!=="") {
@@ -106,7 +108,8 @@ const ListCar = () => {
           // if (destAdd && destAdd.length > 0) {
             const destCoord = await getLatLng(destAdd[0]); // geocodeByAddress returns an array
             console.log("Destination Coordinates:", destCoord);
-        
+            setMapSource(sourceCoord)
+            setMapDest(destCoord)
             const response = await axios({
               method: "post",
               url: "http://localhost:3001/api/car/list",
@@ -229,8 +232,7 @@ const ListCar = () => {
       />
 
       <button onClick={handleBack}>Submit</button>
-    </div>
-  );
-};
-
+      <Gmap source={mapSource} destination={mapDest}/>
+      </div>
+    )}
 export default ListCar;
