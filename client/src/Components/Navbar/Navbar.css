@@ -1,0 +1,22 @@
+
+nav {
+    top:0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 40px;
+    margin-top: 30px;
+  }
+  .nav-title{
+    color:#229080;
+    font-size:2rem;
+    padding-right: 140px;
+  }
+  .navbar-links-container a {
+
+    margin-right: 3rem;
+    text-decoration: none;
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
