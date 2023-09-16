@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
+import Navbar from "../Navbar/Navbar";
+import "../GetCars/GetCars.css";
+import "../../App.css";
 
 const UserPage = () => {
   const [formData, setFormData] = useState({
@@ -71,54 +74,59 @@ const UserPage = () => {
 
   return (
     <div>
-      <h1>Enter Pickup Details!</h1>
+      <div className="book_nav"><Navbar/></div>
       <div className="container">
         <form>
-          <label>
-            Enter Your Name:
+          <div className="input">
+          <label>Enter Your Name:</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleNameChange}
             />
-          </label>
-          <label>
-            Enter the Time:
+          </div>  
+
+          <div className="input">
+          <label>Enter the Time:</label>
             <input
               type="time"
               name="time"
               value={formData.time}
               onChange={handleTimeChange}
             />
-          </label>
-          <label>
-            Enter the Date:
+          </div>
+
+          <div className="input">
+            <label>Enter the Date:</label>
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={handleDateChange}
             />
-          </label>
-          <label>
-            Enter Destination:
-            <input
-              type="text"
-              name="destination"
-              value={formData.destination}
-              onChange={handleDestinationChange}
-            />
-          </label>
-          <label>
-            Enter Source:
+          </div>
+
+          <div className="input">
+          <label>Enter Source:</label>
             <input
               type="text"
               name="source"
               value={formData.source}
               onChange={handleSourceChange}
             />
-          </label>
+          </div>
+
+          <div className="input">
+          <label>Enter Destination:</label>
+            <input
+              type="text"
+              name="destination"
+              value={formData.destination}
+              onChange={handleDestinationChange}
+            />
+          </div>
+
           <button type="submit" onClick={handleSubmit}>
             Submit
           </button>
