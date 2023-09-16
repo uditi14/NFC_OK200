@@ -1,6 +1,5 @@
 import React from "react";
 import "./CarCard.css";
-import Gmap from "../Gmap/Gmap";
 
 const CarCard = ({ car, ourDistance }) => {
   if (!car || Object.keys(car).length === 0) {
