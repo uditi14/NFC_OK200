@@ -1,3 +1,5 @@
+import React from 'react';
+import './CarCard.css'
 import React from "react";
 import "./CarCard.css";
 import Gmap from "../Gmap/Gmap";

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Autocomplete,useLoadScript,GoogleMap } from '@react-google-maps/api';
+import { Autocomplete,useLoadScript,} from '@react-google-maps/api';
 import {
     geocodeByAddress,
     getLatLng,
   } from 'react-places-autocomplete';
-
+import "../ListCar/ListCar.css"
+import Navbar from "../Navbar/Navbar";
+import Gmap from '../Gmap/Gmap';
 
 const libraries=['places'];
 
@@ -27,6 +29,9 @@ const ListCar = () => {
     date: "",
     time: "",
   });
+
+  const[mapSource,setMapSource]=useState(null)
+  const[mapDest,setMapDest]=useState(null)
 
   // Define an onChange handler for each input field
   const handlePhoneNumberChange = (event) => {
@@ -93,8 +98,6 @@ const ListCar = () => {
     // console.log(formData);
   };
 
-
-
   const handleBack=async ()=>{
     try {
         if (formData.phoneNumber!=="") {
@@ -106,7 +109,8 @@ const ListCar = () => {
           // if (destAdd && destAdd.length > 0) {
             const destCoord = await getLatLng(destAdd[0]); // geocodeByAddress returns an array
             console.log("Destination Coordinates:", destCoord);
-        
+            setMapSource(sourceCoord)
+            setMapDest(destCoord)
             const response = await axios({
               method: "post",
               url: "http://localhost:3001/api/car/list",
@@ -144,7 +148,10 @@ const ListCar = () => {
   }
 
   return (
-    <div>
+    <>
+    <div className='list_nav'><Navbar/></div>
+    <div className='list_form'>
+      <div className='input'>
       <label>Enter Phone number:</label>
       <input
         type="text"
@@ -152,36 +159,36 @@ const ListCar = () => {
         value={formData.phoneNumber}
         onChange={handlePhoneNumberChange}
         required
-      />
+      /></div>
 
-      <label>Enter Car number:</label>
+      <div className='input'><label>Enter Car number:</label>
       <input
         type="text"
         placeholder="MH05-8976"
         value={formData.numberPlate}
         onChange={handleNumberPlateChange}
         required
-      />
+      /></div>
 
-      <label>Enter Car model:</label>
+      <div className='input'><label>Enter Car model:</label>
       <input
         type="text"
         placeholder="i20 Sportz"
         value={formData.carModel}
         onChange={handleCarModelChange}
         required
-      />
+      /></div>
 
-      <label>Enter number of available seats:</label>
+      <div className='input'><label>Enter number of available seats:</label>
       <input
         type="number"
         placeholder="3"
         value={formData.carSeats}
         onChange={handleCarSeatsChange}
         required
-      />
+      /></div>
 
-      <label>Enter Source:</label>
+      <div className='input'><label>Enter Source:</label>
      { isLoaded && <Autocomplete>
       <input
         type="text"
@@ -189,9 +196,9 @@ const ListCar = () => {
         value={formData.source}
         onChange={handleSourceChange}
         required
-      /></Autocomplete>}
+      /></Autocomplete>}</div>
 
-      <label>Enter Destination:</label>
+      <div className='input'><label>Enter Destination:</label>
       { isLoaded && <Autocomplete>
       <input
         type="text"
@@ -199,38 +206,37 @@ const ListCar = () => {
         value={formData.destination}
         onChange={handleDestinationChange}
         required
-      /></Autocomplete>}
+      /></Autocomplete>}</div>
 
-      <label>Enter Price per seat:</label>
+      <div className='input'><label>Enter Price per seat:</label>
       <input
         type="number"
         placeholder="120"
         value={formData.price}
         onChange={handlePriceChange}
         required
-      />
+      /></div>
 
-      <label>Enter date of travel:</label>
+      <div className='input'><label>Enter date of travel:</label>
       <input
         type="date"
         placeholder="15-09-23"
         value={formData.date}
         onChange={handleDateChange}
         required
-      />
+      /></div>
 
-      <label>Enter time of travel:</label>
+      <div className='input'><label>Enter time of travel:</label>
       <input
         type="time"
         placeholder="09:00AM"
         value={formData.time}
         onChange={handleTimeChange}
         required
-      />
+      /></div>
 
       <button onClick={handleBack}>Submit</button>
-    </div>
-  );
-};
-
+      <Gmap source={mapSource} destination={mapDest}/>
+      </div>
+    )}
 export default ListCar;
