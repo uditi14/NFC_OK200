@@ -4,7 +4,7 @@ import { Autocomplete, useLoadScript, GoogleMap } from "@react-google-maps/api";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import haversine from "haversine";
 import CarCard from "../CarCard/CarCard";
-import Gmap2 from "../Gmap/Gmap2"; 
+import Gmap2 from "../Gmap/Gmap2";
 
 const libraries = ["places"];
 const UserPage = () => {
@@ -16,7 +16,7 @@ const UserPage = () => {
   const [carData, setCarData] = useState([]);
   const [showPickup, setshowPickup] = useState(true);
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk",
+    googleMapsApiKey: "AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7ki",
     libraries: libraries,
   });
   const [formData, setFormData] = useState({
@@ -79,10 +79,10 @@ const UserPage = () => {
       if (sourceAdd && sourceAdd.length > 0 && destAdd && destAdd.length > 0) {
         const sourceCoord = await getLatLng(sourceAdd[0]);
         console.log("Source Coordinates:", sourceCoord);
-        setsrc(sourceCoord)
+        setsrc(sourceCoord);
         const destCoord = await getLatLng(destAdd[0]);
         console.log("Destination Coordinates:", destCoord);
-        setdest(destCoord)
+        setdest(destCoord);
         const response = await axios.get("http://localhost:3001/api/car/cars", {
           params: {
             date: formData.date,
@@ -149,15 +149,14 @@ const UserPage = () => {
                 latitude: car.sourceCoord.latitude,
                 longitude: car.sourceCoord.longitude,
               };
-setCarSArray((prevArray) => [...prevArray, carSLocation]);
+              setCarSArray((prevArray) => [...prevArray, carSLocation]);
               // setCarS(carSLocation);
 
               const carDLocation = {
                 latitude: car.destCoord.latitude,
                 longitude: car.destCoord.longitude,
               };
-               setCarDArray((prevArray) => [...prevArray, carDLocation]);
-
+              setCarDArray((prevArray) => [...prevArray, carDLocation]);
 
               carSArray.push(carSLocation);
               carDArray.push(carDLocation);
@@ -204,7 +203,7 @@ setCarSArray((prevArray) => [...prevArray, carSLocation]);
           setshowPickup(false);
           console.log("Cars within 500m:", carsWithDistance);
         } else {
-          console.log("Request failed.");
+          console.log("Request failed ");
         }
       }
     } catch (error) {
@@ -215,7 +214,7 @@ setCarSArray((prevArray) => [...prevArray, carSLocation]);
   const handleSetShow = (e) => {
     e.preventDefault();
     setshowPickup(true);
-    console.log(carSArray); // Move the console.log inside this function
+    console.log(carSArray);
   };
 
   // apna wala
@@ -314,7 +313,9 @@ setCarSArray((prevArray) => [...prevArray, carSLocation]);
           <p>No available cars found.</p>
         )}
       </div>
-      <div><Gmap2 carS={carSArray} carD={carDArray} src={src} dest={dest} /></div>
+      <div>
+        <Gmap2 carS={carSArray} carD={carDArray} src={src} dest={dest} />
+      </div>
     </div>
   );
 };
