@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   GoogleMap,
   TrafficLayer,
   useLoadScript,
   DirectionsService,
   DirectionsRenderer,
-} from '@react-google-maps/api';
-import './Gmap.css'
+} from "@react-google-maps/api";
+import "./Gmap.css";
 
-const libraries = ['places'];
+const libraries = ["places"];
 
-export default function Gmap({ source,destination}) {
+export default function Gmap({ source, destination }) {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk', // Replace with your API key
+    googleMapsApiKey: "AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7ki",
     libraries: libraries,
   });
 
   const [directions, setDirections] = useState();
 
   const directionsCallback = (response, status) => {
-    if (status === 'OK') {
+    if (status === "OK") {
       setDirections(response);
     } else {
-      console.error('Directions request failed with status:', status);
+      console.error("Directions request failed with status:", status);
     }
   };
 
@@ -32,9 +32,9 @@ export default function Gmap({ source,destination}) {
 
       directionsService.route(
         {
-          origin:source, // Replace with the source location (e.g., { lat: 19.0759837, lng: 72.8776559 })
-          destination: destination, // Replace with the destination location
-          travelMode: 'DRIVING', // You can change this to other travel modes if needed
+          origin: source,
+          destination: destination,
+          travelMode: "DRIVING",
           provideRouteAlternatives: true,
         },
         directionsCallback
@@ -48,7 +48,11 @@ export default function Gmap({ source,destination}) {
         <div>Error loading Google Maps</div>
       ) : isLoaded ? (
         <div>
-          <GoogleMap zoom={15} center={source} mapContainerClassName='map-container'>
+          <GoogleMap
+            zoom={15}
+            center={source}
+            mapContainerClassName="map-container"
+          >
             <TrafficLayer autoUpdate />
             {directions && directions.routes && (
               <div>
@@ -59,7 +63,7 @@ export default function Gmap({ source,destination}) {
                     routeIndex={index}
                     options={{
                       polylineOptions: {
-                        strokeColor: index === 0 ? 'blue' : 'grey', // Blue for the first (main) route, grey for alternatives
+                        strokeColor: index === 0 ? "blue" : "grey", // Blue for the first (main) route, grey for alternatives
                       },
                     }}
                   />
