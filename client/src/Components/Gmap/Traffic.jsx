@@ -9,7 +9,7 @@ import {
 
 const Gmap = () => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk", // Replace with your actual API key
+    googleMapsApiKey: "", // Replace with your actual API key
   });
 
   const [userLocation, setUserLocation] = useState({

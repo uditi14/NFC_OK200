@@ -12,7 +12,7 @@ const libraries = ['places'];
 
 export default function Gmap({ source,destination}) {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyBfGckgSJfuIJSjlqh02W1KFs6l4DqR7Sk', // Replace with your API key
+    googleMapsApiKey: '', // 
     libraries: libraries,
   });
 

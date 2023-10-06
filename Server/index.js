@@ -19,7 +19,7 @@ app.use(express.json());
 mongoose.set("strictQuery", false);
 mongoose
   .connect(
-    "mongodb+srv://simrantotlani08:RO1yCbAijDMhGNkx@cluster0.umnfidg.mongodb.net/?retryWrites=true&w=majority",
+    process.env.DATABASE_URL,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
